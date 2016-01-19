@@ -1,17 +1,24 @@
-double MCIntegral(){
-    // chyba = 1/sqrt(N) -> 1% = 1/sqrt(10000)
-    unsigned pokusu = 10000;
+// obecny vzorec pro vypocet presnosti: 1/sqrt(n)
+// presnost = 1% = 1/100 => n = 10000 pokusu
+double MCIntegral() {
+    unsigned pocetPokusu = 10000;
     double suma = 0.0;
-    for(unsigned i=0; i<pokusu; i++){
+
+    for (unsigned i=0; i<pocetPokusu; i++) {
         double x[N];
-        for(unsigned ii=0; ii<N; ii++){
-            x[ii] = Range[ii].min
-             + Random() * (Range[ii].max-Range[ii].min);
+        // urceni souradnic nahodneho bodu x
+        for (unsigned j=0; j<N; j++) {
+            x[j] = Range[j].min + Random() * (Range[j].max - Range[j].min);
         }
-        suma += f(x,N);
+        // pricteni hodnoty nahodneho bodu do celkove sumy
+        suma += f(x, N);
     }
+
     double refPlocha = 1.0;
-    for(unsigned ii=0; ii<N; ii++)
-        refPlocha *= Range[ii].max - Range[ii].min;
-    return refPlocha * suma/pokusu;
+    // vypocet rozmeru prostoru ve kterem se generovaly body
+    for (unsigned k=0; k<N; k++) {
+        refPlocha *= Range[k].max - Range[k].min;
+    }
+
+    return refPlocha * (suma / pocetPokusu);
 }
